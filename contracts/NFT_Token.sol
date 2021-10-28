@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -17,13 +18,16 @@ contract NFT_Token is ERC721, Ownable {
 
   constructor(string memory name, string memory symbol) ERC721(name, symbol) {}
 
+  function getTokenDetails(uint256 tokenId) public view returns (Pet memory) {
+    return _tokenDetails[tokenId];
+  }
+
   function mint(
     uint8 _damage,
     uint8 _magic,
-    uint8 _endurance
+    uint256 _endurance
   ) public onlyOwner {
     _tokenDetails[nextId] = Pet(_damage, _magic, block.timestamp, _endurance);
-
     _safeMint(msg.sender, nextId);
     nextId++;
   }
@@ -38,7 +42,7 @@ contract NFT_Token is ERC721, Ownable {
     address from,
     address to,
     uint256 tokenId
-  ) internal virtual {
+  ) internal override {
     Pet storage pet = _tokenDetails[tokenId];
     require(block.timestamp < pet.lastMeal + pet.endurance); // Pet is still alive
   }

@@ -51,6 +51,16 @@ module.exports = {
       network_id: 4,
       gas: 6700000, // Gas limit used for deploys
     },
+    development: {
+      provider: function () {
+        return new HDWalletProvider(
+          // process.env.REACT_APP_MNEMONIC,
+          "oven life pupil mirror mushroom half gospel wealth wise siren repeat cannon",
+          "https://rinkeby.infura.io/v3/c6878014726a40c8bfea338e4a592626"
+        );
+      }, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
@@ -88,6 +98,8 @@ module.exports = {
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
   },
+  contract_directory: "./contracts/",
+  contracts_build_directory: "./contracts/abis/",
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
