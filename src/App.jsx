@@ -16,6 +16,7 @@ import ERC20Transfers from "./components/ERC20Transfers";
 import InchDex from "./components/InchDex";
 import NFTBalance from "./components/NFTBalance";
 import Wallet from "./components/Wallet";
+import { Game } from "./Pages/Game/Game";
 import { Flex } from "./uikit/Flex/Flex";
 
 const styles = {
@@ -61,7 +62,7 @@ const App = () => {
         padding='0 20px'>
         <Logo />
         <div style={styles.navBar}>
-          <NavLink
+          {/* <NavLink
             to='/wallet'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
@@ -84,7 +85,7 @@ const App = () => {
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Transfers
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to='/nftBalance'
             style={styles.navLink}
@@ -99,18 +100,21 @@ const App = () => {
           </NavLink>
         </div>
         <div style={styles.headerRight}>
-          <CoinPrice
+          {/* <CoinPrice
             address='0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
             chain='eth'
             image='https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/'
             size='40px'
           />
-          <Chains polygon eth bsc avalanche />
+          <Chains polygon eth bsc avalanche /> */}
           <Account />
         </div>
       </Flex>
       <div style={styles.content}>
         <Switch>
+          <Route path='/game'>
+            <Game />
+          </Route>
           <Route path='/wallet'>
             <Wallet />
           </Route>
@@ -131,7 +135,7 @@ const App = () => {
           </Route>
           {/* <Redirect from="/" to="/wallet" /> */}
         </Switch>
-        {isAuthenticated ? <Redirect to='/wallet' /> : <Redirect to='/home' />}
+        {isAuthenticated ? <Redirect to='/game' /> : <Redirect to='/home' />}
       </div>
     </Router>
   );

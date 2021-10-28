@@ -31,18 +31,19 @@ function Account() {
       <div style={styles.account}>
         <p
           onClick={() => authenticate({ signingMessage: "Hello World!" })}
-          style={{ padding: "0 10px" }}
-        >
-          Authenticate
+          style={{ padding: "0 10px" }}>
+          Login
         </p>
       </div>
     );
   }
 
   return (
-    <div style={{ ...styles.account, ...styles.wrapper }} onClick={() => logout()}>
+    <div
+      style={{ ...styles.account, ...styles.wrapper }}
+      onClick={() => logout()}>
       <NativeBalance />
-      <Address avatar size="5" />
+      <Address avatar size='5' />
     </div>
   );
 }
