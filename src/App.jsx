@@ -16,8 +16,8 @@ import ERC20Transfers from "./components/ERC20Transfers";
 import InchDex from "./components/InchDex";
 import NFTBalance from "./components/NFTBalance";
 import Wallet from "./components/Wallet";
-import { Game } from "./Pages/Game/Game";
 import { Flex } from "./uikit/Flex/Flex";
+import { Game } from "./Pages/Game/Game";
 
 const styles = {
   content: {
@@ -52,6 +52,7 @@ const styles = {
 };
 const App = () => {
   const { isAuthenticated } = useMoralis();
+
   return (
     <Router>
       <Flex
@@ -92,12 +93,12 @@ const App = () => {
             activeStyle={styles.navLink}>
             NFT Balance
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to='/contract'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Contract
-          </NavLink>
+          </NavLink> */}
         </div>
         <div style={styles.headerRight}>
           {/* <CoinPrice

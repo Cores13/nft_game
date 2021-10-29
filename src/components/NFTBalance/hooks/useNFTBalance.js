@@ -3,10 +3,10 @@ import { useMoralisDapp } from "../../../providers/MoralisDappProvider/MoralisDa
 
 const useNFTBalance = () => {
   const { account } = useMoralisWeb3Api();
-  const { walletAddress } = useMoralisDapp();
+  const { walletAddres, chain } = useMoralisDapp();
   const fetchNFTBalance = async (options) => {
     return await account
-      .getNFTs({ address: walletAddress, chain: "bsc" })
+      .getNFTs({ address: walletAddres, chain: chain })
       .then((result) => result.result)
       .catch((e) => alert(e.message));
   };
