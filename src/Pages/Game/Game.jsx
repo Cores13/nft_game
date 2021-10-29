@@ -12,8 +12,8 @@ export const Game = () => {
   const [NFTBalance, setNFTBalance] = useState();
 
   const options = {
-    address: address,
-    chain: chainId,
+    address: "0xA858BB51834A9a030409d3F353a10bCaA3eda272",
+    chain: "rinkeby",
   };
 
   useEffect(() => {
