@@ -135,8 +135,8 @@ const App = () => {
             <Contract />
           </Route>
           {/* <Redirect from="/" to="/wallet" /> */}
+          {isAuthenticated ? <Route to='/game' component={Game} /> : null}
         </Switch>
-        {isAuthenticated ? <Redirect to='/game' /> : <Redirect to='/home' />}
       </div>
     </Router>
   );

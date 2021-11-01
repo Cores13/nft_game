@@ -20,19 +20,22 @@ export const Game = () => {
     setAddress(walletAddress);
     setChainId(chain);
     init();
-    console.log(address);
-    console.log(chainId);
   }, [walletAddress, chain]);
 
   const init = async () => {
     let NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-    console.log(NFTs);
+    if (NFTs) {
+      setNFTBalance(NFTs);
+      if (NFTBalance) {
+        console.log(NFTBalance.result);
+      }
+    }
   };
   useEffect(() => {
-    if (isInitialized)
-      fetchNFTBalance()
-        .then((balance) => setNFTBalance(balance))
-        .catch((e) => alert(e.message));
+    // if (isInitialized)
+    //   fetchNFTBalance()
+    //     .then((balance) => setNFTBalance(balance))
+    //     .catch((e) => alert(e.message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized]);
 
