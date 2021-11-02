@@ -14,7 +14,9 @@ contract NFT is ERC721Enumerable, Ownable {
   string public notRevealedUri;
   string[] public words = ["improvise", "adapt", "overcome", "fight"];
 
-  constructor(string memory _initNotRevealedUri) ERC721("Test NFT", "TNFT") {
+  constructor(string memory _initNotRevealedUri)
+    ERC721("NFTs With Traits", "NFWT")
+  {
     setNotRevealedURI(_initNotRevealedUri);
   }
 
@@ -132,7 +134,14 @@ contract NFT is ERC721Enumerable, Ownable {
                 '", "image": "',
                 "data:image/svg+xml;base64,",
                 buildImage(_tokenId),
-                '"}'
+                '", "traits": [',
+                "{",
+                '"trait_type": ',
+                '"Stamina",',
+                '"value": 3',
+                "}",
+                "],",
+                "}"
               )
             )
           )
