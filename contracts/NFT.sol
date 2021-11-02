@@ -30,21 +30,33 @@ contract NFT is ERC721Enumerable, Ownable {
     _safeMint(msg.sender, supply + 1);
   }
 
-  function randomNum(uint256 _mod, uint256 _seed, uint256 _salt) public view returns(uint256){
-    uint256 num = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, _seed, _salt);)) % _mod;
+  function randomNum(
+    uint256 _mod,
+    uint256 _seed,
+    uint256 _salt
+  ) public view returns (uint256) {
+    uint256 num = uint256(
+      keccak256(abi.encodePacked(block.timestamp, msg.sender, _seed, _salt))
+    ) % _mod;
     return num;
   }
 
-  function buildImage() public pure returns (string memory) {
+  function buildImage() public view returns (string memory) {
     return
       Base64.encode(
         bytes(
           abi.encodePacked(
             '<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">',
             "<g>",
-            '<rect stroke="#000" height="603.00002" width="799" y="0" x="0.00001" fill="hsl(',randomNum(361, block.timestamp, msg.sender),', 64%, 29%)"/>>',
-            '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',randomNum(361, block.timestamp, msg.sender),', 64%, 29%)"/>',
-            '<text stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',randomNum(361, block.timestamp, msg.sender),', 58%, 69%)">srthdrstjhtsrthjsrtthj</text>',
+            '<rect stroke="#000" height="603.00002" width="799" y="0" x="0.00001" fill="hsl(',
+            randomNum(361, 234, 26).toString(),
+            ', 64%, 29%)"/>>',
+            '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',
+            randomNum(361, 91, 53).toString(),
+            ', 64%, 29%)"/>',
+            '<text stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',
+            randomNum(361, 75, 48).toString(),
+            ', 58%, 69%)">srthdrstjhtsrthjsrtthj</text>',
             "</g>",
             "</svg>"
           )
