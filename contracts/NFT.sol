@@ -12,10 +12,22 @@ contract NFT is ERC721Enumerable, Ownable {
   bool public paused = false;
   bool public revealed = false;
   string public notRevealedUri;
+  string[] public words = ["improvise", "adapt", "overcome", "fight"];
 
   constructor(string memory _initNotRevealedUri) ERC721("Test NFT", "TNFT") {
     setNotRevealedURI(_initNotRevealedUri);
   }
+
+  struct Word {
+    string name;
+    string description;
+    string bgHue;
+    string circleHue;
+    string textHue;
+    string value;
+  }
+
+  mapping(uint256 => Word) public Vocabulary;
 
   // public
   function mint() public payable {
@@ -23,9 +35,20 @@ contract NFT is ERC721Enumerable, Ownable {
     require(!paused);
     require(supply + 1 <= 10000);
 
+    Word memory newWord = Word(
+      string(abi.encodePacked("OCN #", uint256(supply + 1).toString())),
+      "This is on chain test NFT",
+      randomNum(361, block.difficulty, supply).toString(),
+      randomNum(361, block.difficulty, block.timestamp).toString(),
+      randomNum(361, block.timestamp, supply).toString(),
+      words[randomNum(words.length, block.timestamp, supply)]
+    );
+
     if (msg.sender != owner()) {
       require(msg.value >= 5000000000000000 wei);
     }
+
+    Vocabulary[supply + 1] = newWord;
 
     _safeMint(msg.sender, supply + 1);
   }
@@ -41,7 +64,8 @@ contract NFT is ERC721Enumerable, Ownable {
     return num;
   }
 
-  function buildImage() public view returns (string memory) {
+  function buildImage(uint256 _tokenId) public view returns (string memory) {
+    Word memory currentWord = Vocabulary[_tokenId];
     return
       Base64.encode(
         bytes(
@@ -49,14 +73,14 @@ contract NFT is ERC721Enumerable, Ownable {
             '<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">',
             "<g>",
             '<rect stroke="#000" height="603.00002" width="799" y="0" x="0.00001" fill="hsl(',
-            randomNum(361, 234, 26).toString(),
+            currentWord.bgHue,
             ', 64%, 29%)"/>>',
             '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',
-            randomNum(361, 91, 53).toString(),
+            currentWord.circleHue,
             ', 64%, 29%)"/>',
             '<text stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',
-            randomNum(361, 75, 48).toString(),
-            ', 58%, 69%)">srthdrstjhtsrthjsrtthj</text>',
+            currentWord.textHue,
+            ', 58%, 69%)">currentWord.value</text>',
             "</g>",
             "</svg>"
           )
@@ -77,7 +101,7 @@ contract NFT is ERC721Enumerable, Ownable {
     return tokenIds;
   }
 
-  function tokenURI(uint256 tokenId)
+  function tokenURI(uint256 _tokenId)
     public
     view
     virtual
@@ -85,9 +109,11 @@ contract NFT is ERC721Enumerable, Ownable {
     returns (string memory)
   {
     require(
-      _exists(tokenId),
+      _exists(_tokenId),
       "ERC721Metadata: URI query for nonexistent token"
     );
+
+    Word memory currentWord = Vocabulary[_tokenId];
 
     return
       string(
@@ -98,12 +124,12 @@ contract NFT is ERC721Enumerable, Ownable {
               abi.encodePacked(
                 "{",
                 '"name": "',
-                "REPLACE",
+                currentWord.name,
                 '", "description": "',
-                "REPLACE",
+                currentWord.description,
                 '", "image": "',
                 "data:image/svg+xml;base64,",
-                buildImage(),
+                buildImage(_tokenId),
                 '"}'
               )
             )
