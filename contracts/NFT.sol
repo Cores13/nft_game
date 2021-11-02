@@ -41,7 +41,7 @@ contract NFT is ERC721Enumerable, Ownable {
       string(abi.encodePacked("OCN #", uint256(supply + 1).toString())),
       "This is on chain test NFT",
       randomNum(361, block.difficulty, supply).toString(),
-      randomNum(361, block.difficulty, block.timestamp).toString(),
+      randomNum(361, block.timestamp, block.difficulty).toString(),
       randomNum(361, block.timestamp, supply).toString(),
       words[randomNum(words.length, block.timestamp, supply)]
     );
