@@ -134,13 +134,18 @@ contract NFT is ERC721Enumerable, Ownable {
                 '", "image": "',
                 "data:image/svg+xml;base64,",
                 buildImage(_tokenId),
-                '", "traits": [',
+                '", "attributes": [',
                 "{",
                 '"trait_type": ',
                 '"Stamina",',
                 '"value": 3',
+                "},",
+                "{",
+                '"trait_type": ',
+                '"Strength",',
+                '"value": 9000',
                 "}",
-                "],",
+                "]",
                 "}"
               )
             )
