@@ -78,9 +78,11 @@ contract NFT is ERC721Enumerable, Ownable {
             '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',
             currentWord.circleHue,
             ', 64%, 29%)"/>',
-            '<text stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',
+            '<text dominant-baseline="middle" stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',
             currentWord.textHue,
-            ', 58%, 69%)">currentWord.value</text>',
+            ', 58%, 69%)">',
+            currentWord.value,
+            "</text>",
             "</g>",
             "</svg>"
           )
