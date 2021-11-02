@@ -32,10 +32,16 @@ contract NFT_Contract is ERC1155, Ownable {
     address account,
     uint8 _damage,
     uint8 _magic,
-    uint256 _endurance
+    uint256 _endurance,
   ) public onlyOwner {
-    _tokenDetails[nextId] = Pet(_damage, _magic, block.timestamp, _endurance);
-    _mint(account, nextId, 1, "");
+    _tokenDetails[nextId] = Pet(
+      _damage,
+      _magic,
+      block.timestamp,
+      _endurance,
+      data
+    );
+    _mint(account, nextId, 1, '');
     nextId++;
   }
 
