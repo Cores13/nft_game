@@ -27,6 +27,8 @@ contract NFT is ERC721Enumerable, Ownable {
     string circleHue;
     string textHue;
     string value;
+    uint256 stamina;
+    uint256 strength;
   }
 
   mapping(uint256 => Word) public Vocabulary;
@@ -43,7 +45,9 @@ contract NFT is ERC721Enumerable, Ownable {
       randomNum(361, block.difficulty, supply).toString(),
       randomNum(361, block.timestamp, block.difficulty).toString(),
       randomNum(361, block.timestamp, supply).toString(),
-      words[randomNum(words.length, block.timestamp, supply)]
+      words[randomNum(words.length, block.timestamp, supply)],
+      randomNum(1000, block.timestamp, block.difficulty),
+      randomNum(1000, block.timestamp, supply)
     );
 
     if (msg.sender != owner()) {
@@ -138,12 +142,14 @@ contract NFT is ERC721Enumerable, Ownable {
                 "{",
                 '"trait_type": ',
                 '"Stamina",',
-                '"value": 3',
+                '"value": ',
+                currentWord.stamina,
                 "},",
                 "{",
                 '"trait_type": ',
                 '"Strength",',
-                '"value": 9000',
+                '"value": ',
+                currentWord.strength,
                 "}",
                 "]",
                 "}"
@@ -168,15 +174,6 @@ contract NFT is ERC721Enumerable, Ownable {
   }
 
   function withdraw() public payable onlyOwner {
-    // This will pay HashLips 5% of the initial sale.
-    // You can remove this if you want, or keep it in to support HashLips and his channel.
-    // =============================================================================
-    // (bool hs, ) = payable(0x943590A42C27D08e3744202c4Ae5eD55c2dE240D).call{
-    //   value: (address(this).balance * 5) / 100
-    // }("");
-    // require(hs);
-    // =============================================================================
-
     // This will payout the owner 95% of the contract balance.
     // Do not remove this otherwise you will not be able to withdraw the funds.
     // =============================================================================
