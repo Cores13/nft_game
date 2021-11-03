@@ -93,12 +93,12 @@ const App = () => {
             activeStyle={styles.navLink}>
             NFT Balance
           </NavLink>
-          {/* <NavLink
+          <NavLink
             to='/contract'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Contract
-          </NavLink> */}
+          </NavLink>
         </div>
         <div style={styles.headerRight}>
           {/* <CoinPrice
