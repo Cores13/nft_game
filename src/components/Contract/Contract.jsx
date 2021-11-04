@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useWeb3ExecuteFunction } from "react-moralis";
-import { useMoralis } from "react-moralis";
+import React, { useEffect, useContext } from "react";
 import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
 import { GlobalState } from "../../GlobalState";
 
@@ -12,11 +10,11 @@ const Contract = () => {
   const [contract] = store.contract;
   const [web3] = store.web3;
   const [NFTWallet] = store.NFTWallet;
-  const NFTArray = store.NFTArray;
   const [callback, setCallback] = store.callback;
 
   useEffect(() => {
     setCallback(!callback);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {}, [

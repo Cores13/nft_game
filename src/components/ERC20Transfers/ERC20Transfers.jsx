@@ -21,7 +21,7 @@ function ERC20Transfers() {
               <th>From</th>
               <th>To</th>
               <th>Value</th>
-              <th>Block Number</th>
+              {/* <th>Block Number</th> */}
             </tr>
           </thead>
           <tbody>
@@ -29,13 +29,14 @@ function ERC20Transfers() {
               ? null
               : ERC20Transfers.map((item, key) => (
                   <tr key={key}>
-                    <td>{getEllipsisTxt(item.address, 5)}</td>
+                    {/* <td>{getEllipsisTxt(item.address, 5)}</td> */}
+                    <td>{item.address}</td>
                     <td>{getEllipsisTxt(item.from_address, 5)}</td>
                     <td>{getEllipsisTxt(item.to_address, 5)}</td>
                     <td>
                       {parseFloat(Moralis.Units.FromWei(item.value).toFixed(6))}
                     </td>
-                    <td>{item.block_number}</td>
+                    {/* <td>{item.block_number}</td> */}
                   </tr>
                 ))}
           </tbody>

@@ -25,10 +25,10 @@ const styles = {
     width: "450px",
     background: "#FFFFFF",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-    border: "2px solid #e7eaf3", 
+    border: "2px solid #e7eaf3",
     borderRadius: "15px",
     marginBottom: "20px",
-    display: "flex", 
+    display: "flex",
     alignItems: "center",
     flexDirection: "column",
   },
@@ -52,33 +52,39 @@ const styles = {
 
 function Wallet() {
   return (
-    <Flex maxWidth="1200px">
+    <Flex maxWidth='1200px'>
       <h1 style={styles.title}>💵Your Wallet</h1>
       <div style={styles.card}>
         <div style={styles.header}>
           <Blockie size={10} avatar currentWallet />
-          <Address size="6" copyable />
+          <Address size='6' copyable />
           <NativeBalance />
         </div>
         <div style={styles.navLinks}>
-          <NavLink to="/wallet/transfer" style={styles.navLink} activeStyle={styles.activeLink}>
+          <NavLink
+            to='/wallet/transfer'
+            style={styles.navLink}
+            activeStyle={styles.activeLink}>
             Transfer
           </NavLink>
           {/* <NavLink to="/wallet/transactions" style={styles.navLink} activeStyle={styles.activeLink}>
             Transactions
           </NavLink> */}
-          <NavLink to="/wallet/assets" style={styles.navLink} activeStyle={styles.activeLink}>
+          <NavLink
+            to='/wallet/assets'
+            style={styles.navLink}
+            activeStyle={styles.activeLink}>
             Assets
           </NavLink>
         </div>
         <Switch>
-          <Route path="/wallet/transfer">
+          <Route path='/wallet/transfer'>
             <Transfer />
           </Route>
-          <Route path="/wallet/assets">
+          <Route path='/wallet/assets'>
             <Assets />
           </Route>
-          <Redirect to="/wallet/transfer" />
+          <Redirect to='/wallet/transfer' />
         </Switch>
       </div>
     </Flex>

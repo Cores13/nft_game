@@ -5,6 +5,7 @@ import NativeBalance from "../NativeBalance";
 import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
 import { GlobalState } from "../../GlobalState";
 import { useEffect } from "react/cjs/react.development";
+
 const styles = {
   account: {
     height: "42px",
@@ -33,6 +34,7 @@ function Account() {
 
   useEffect(() => {
     setCallback(!callback);
+    // eslint-disable-next-line
   }, [isAuthenticatedD, isAuthenticated]);
 
   if (!isAuthenticatedD) {
@@ -55,6 +57,7 @@ function Account() {
       style={{ ...styles.account, ...styles.wrapper }}
       onClick={() => {
         logoutD();
+        setCallback(!callback);
       }}>
       <NativeBalance />
       <Address avatar size='5' />

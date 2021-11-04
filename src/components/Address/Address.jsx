@@ -27,6 +27,7 @@ function Address(props) {
 
   useEffect(() => {
     setAddress(walletAddress);
+    // eslint-disable-next-line
   }, [walletAddress]);
 
   if (!address) return null;

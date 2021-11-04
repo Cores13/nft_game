@@ -1,6 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useWeb3ExecuteFunction } from "react-moralis";
-import { useMoralis } from "react-moralis";
 import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvider";
 
 export const GlobalState = createContext(undefined);
@@ -690,10 +688,12 @@ export const DataProvider = ({ children }) => {
       init();
       setAddress(walletAddress);
     }
+    // eslint-disable-next-line
   }, [walletAddress, address, isAuthenticatedD, authenticateD]);
 
   useEffect(() => {
     getNFTs();
+    // eslint-disable-next-line
   }, [isAuthenticatedD, logoutD, contract, callback]);
 
   const init = async () => {
