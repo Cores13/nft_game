@@ -31,7 +31,8 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  background-color: white;
+  color: white;
+  background: rgb(9, 9, 12);
 }
 
 ul[class],
@@ -57,4 +58,8 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+a {
+  color: white;
 }

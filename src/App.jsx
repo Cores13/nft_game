@@ -1,5 +1,4 @@
-import React from "react";
-import { useMoralis } from "react-moralis";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,8 +7,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Account from "./components/Account";
-import Chains from "./components/Chains";
-import CoinPrice from "./components/CoinPrice";
 import Contract from "./components/Contract/Contract";
 import ERC20Balance from "./components/ERC20Balance";
 import ERC20Transfers from "./components/ERC20Transfers";
@@ -18,6 +15,9 @@ import NFTBalance from "./components/NFTBalance";
 import Wallet from "./components/Wallet";
 import { Flex } from "./uikit/Flex/Flex";
 import { Game } from "./Pages/Game/Game";
+
+import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvider";
+import { GlobalState } from "./GlobalState";
 
 const styles = {
   content: {
@@ -34,7 +34,8 @@ const styles = {
   navLink: {
     textDecoration: "none",
     fontWeight: "800",
-    color: "#374f72",
+    // color: "#374f72",
+    color: "#ffffff",
     fontFamily: "Roboto, sans-serif",
     fontSize: "18px",
   },
@@ -51,7 +52,9 @@ const styles = {
   },
 };
 const App = () => {
-  const { isAuthenticated } = useMoralis();
+  const { isAuthenticatedD } = useMoralisDapp();
+  const store = useContext(GlobalState);
+  const [callback, setCallback] = store.callback;
 
   return (
     <Router>
@@ -63,13 +66,13 @@ const App = () => {
         padding='0 20px'>
         <Logo />
         <div style={styles.navBar}>
-          {/* <NavLink
+          <NavLink
             to='/wallet'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Wallet
           </NavLink>
-          <NavLink
+          {/*<NavLink
             to='/1inch'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
@@ -81,23 +84,25 @@ const App = () => {
             activeStyle={styles.navLinkActive}>
             Balances
           </NavLink>
+          */}
           <NavLink
             to='/erc20transfers'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Transfers
-          </NavLink> */}
-          <NavLink
+          </NavLink>
+          {/* <NavLink
             to='/nftBalance'
             style={styles.navLink}
             activeStyle={styles.navLink}>
             NFT Balance
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to='/contract'
             style={styles.navLink}
-            activeStyle={styles.navLinkActive}>
-            Contract
+            activeStyle={styles.navLinkActive}
+            onClick={() => setCallback(!callback)}>
+            NFT Balance
           </NavLink>
         </div>
         <div style={styles.headerRight}>
@@ -131,11 +136,15 @@ const App = () => {
           <Route path='/nftBalance'>
             <NFTBalance />
           </Route>
-          <Route path='/contract'>
+          {/* <Route path='/contract'>
             <Contract />
-          </Route>
+          </Route> */}
           {/* <Redirect from="/" to="/wallet" /> */}
-          {isAuthenticated ? <Route to='/game' component={Game} /> : null}
+          {isAuthenticatedD ? (
+            <Route to='/contract' component={Contract} />
+          ) : (
+            <Redirect to='/' />
+          )}
         </Switch>
       </div>
     </Router>

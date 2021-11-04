@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useMoralis } from "react-moralis";
 import Address from "../Address/Address";
 import NativeBalance from "../NativeBalance";
+import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
+import { GlobalState } from "../../GlobalState";
+import { useEffect } from "react/cjs/react.development";
 
 const styles = {
   account: {
@@ -24,13 +27,27 @@ const styles = {
 };
 
 function Account() {
-  const { authenticate, isAuthenticated, logout } = useMoralis();
+  const store = useContext(GlobalState);
+  const { isAuthenticated } = useMoralis();
+  const { authenticateD, isAuthenticatedD, logoutD } = useMoralisDapp();
+  const [callback, setCallback] = store.callback;
+  // eslint-disable-next-line
+  const [NFTWallet, setNFTWallet] = store.NFTWallet;
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    setNFTWallet([]);
+    setCallback(!callback);
+    // eslint-disable-next-line
+  }, [isAuthenticatedD, isAuthenticated, logoutD]);
+
+  if (!isAuthenticatedD) {
     return (
       <div style={styles.account}>
         <p
-          onClick={() => authenticate({ signingMessage: "Hello World!" })}
+          onClick={() => {
+            authenticateD({ signingMessage: "Log in" });
+            setCallback(!callback);
+          }}
           style={{ padding: "0 10px" }}>
           Login
         </p>
@@ -41,7 +58,11 @@ function Account() {
   return (
     <div
       style={{ ...styles.account, ...styles.wrapper }}
-      onClick={() => logout()}>
+      onClick={() => {
+        logoutD();
+        setCallback(!callback);
+        setNFTWallet([]);
+      }}>
       <NativeBalance />
       <Address avatar size='5' />
     </div>
