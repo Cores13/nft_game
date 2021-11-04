@@ -71,13 +71,13 @@ const App = () => {
         padding='0 20px'>
         <Logo />
         <div style={styles.navBar}>
-          {/* <NavLink
+          <NavLink
             to='/wallet'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Wallet
           </NavLink>
-          <NavLink
+          {/*<NavLink
             to='/1inch'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
@@ -89,24 +89,25 @@ const App = () => {
             activeStyle={styles.navLinkActive}>
             Balances
           </NavLink>
+          */}
           <NavLink
             to='/erc20transfers'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Transfers
-          </NavLink> */}
-          <NavLink
+          </NavLink>
+          {/* <NavLink
             to='/nftBalance'
             style={styles.navLink}
             activeStyle={styles.navLink}>
             NFT Balance
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to='/contract'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}
             onClick={() => setCallback(!callback)}>
-            Contract
+            NFT Balance
           </NavLink>
         </div>
         <div style={styles.headerRight}>
