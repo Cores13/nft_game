@@ -11,6 +11,7 @@ export const DataProvider = ({ children }) => {
   const [address, setAddress] = useState(walletAddress);
   const [contract, setContract] = useState();
   const [web3, setWeb3] = useState();
+  const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState([]);
   const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
@@ -687,33 +688,26 @@ export const DataProvider = ({ children }) => {
     if (isAuthenticated) {
       init();
     }
-  }, [
-    walletAddress,
-    address,
-    isAuthenticated,
-    authenticate,
-    logout,
-    NFTWallet,
-  ]);
+  }, [walletAddress, address, isAuthenticated, authenticate, logout]);
+
+  useEffect(() => {}, [callback]);
 
   const init = async () => {
-    setAddress(walletAddress);
+    var web3Data = await Moralis.Web3.enable();
+    await setWeb3(web3Data);
+    await setAddress(walletAddress);
     if (address) {
       await getContract();
-      getNFTs();
+      await getNFTs();
     }
+    setCallback(!callback);
   };
 
   const getContract = async () => {
     try {
-      var web3Data = await Moralis.Web3.enable();
-      await setWeb3(web3Data);
       if (web3) {
         const contractData = await new web3.eth.Contract(ABI, contractAddress);
-        await setContract(contractData);
-        await setAddress(walletAddress);
-        console.log(contract);
-        console.log("address", address);
+        setContract(contractData);
       }
     } catch (error) {
       console.log(error);
@@ -727,26 +721,21 @@ export const DataProvider = ({ children }) => {
           .walletOfOwner(address)
           .call();
         if (walletOfOwner) {
-          console.log("walletOfOwner", walletOfOwner);
           for (let id = 1; id <= walletOfOwner.length; id++) {
             var nft = await contract.methods.tokenURI(id).call();
             if (nft) {
-              const json = await Buffer.from(
-                nft.substring(29),
-                "base64"
-              ).toString();
+              const json = Buffer.from(nft.substring(29), "base64").toString();
               if (json) {
                 var result = await JSON.parse(json);
               }
               if (result) {
-                await NFTArray.push(result);
-                await setNFTWallet([...NFTWallet, result]);
+                NFTArray.push(result);
+                // await setNFTWallet([...NFTWallet, result]);
               }
             }
           }
         }
         await setNFTWallet(NFTArray);
-        console.log("wallet", NFTWallet);
       }
     } catch (error) {
       console.log(error);
@@ -762,6 +751,7 @@ export const DataProvider = ({ children }) => {
     NFTArray: NFTArray,
     ABI: ABI,
     MoralisContext: { Moralis, authenticate, isAuthenticated, logout },
+    callback: [callback, setCallback],
   };
 
   return <GlobalState.Provider value={store}>{children}</GlobalState.Provider>;

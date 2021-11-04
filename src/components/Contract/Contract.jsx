@@ -12,8 +12,19 @@ const Contract = () => {
   const [web3] = store.web3;
   const [NFTWallet] = store.NFTWallet;
   const NFTArray = store.NFTArray;
+  const [callback, setCallback] = store.callback;
 
-  useEffect(() => {}, [NFTWallet, NFTArray, address, isAuthenticated]);
+  useEffect(() => {
+    setCallback(!callback);
+  }, []);
+
+  useEffect(() => {}, [
+    NFTWallet,
+    NFTArray,
+    address,
+    isAuthenticated,
+    callback,
+  ]);
 
   const mint = async () => {
     const mintedNFT = await contract.methods.mint().send({
@@ -29,8 +40,8 @@ const Contract = () => {
         <>
           <button onClick={() => mint()}>Mint</button>
           <div className='nfts'>
-            {NFTArray &&
-              NFTArray.map((nft) => {
+            {NFTWallet &&
+              NFTWallet.map((nft) => {
                 return (
                   <div className='nftCard' key={nft.name}>
                     <img src={nft?.image} alt='' className='nftImg' />
