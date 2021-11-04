@@ -690,7 +690,14 @@ export const DataProvider = ({ children }) => {
     }
   }, [walletAddress, address, isAuthenticated, authenticate, logout]);
 
-  useEffect(() => {}, [callback]);
+  useEffect(() => {}, [
+    walletAddress,
+    address,
+    isAuthenticated,
+    authenticate,
+    logout,
+    callback,
+  ]);
 
   const init = async () => {
     var web3Data = await Moralis.Web3.enable();
