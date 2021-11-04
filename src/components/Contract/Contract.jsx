@@ -679,13 +679,11 @@ const Contract = () => {
   const [contract, setContract] = useState();
   const [web3, setWeb3] = useState();
   const [NFTWallet, setNFTWallet] = useState();
-  const [loaded, setLoaded] = useState(false);
   var NFTArray = [];
   const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
   const [callback, setCallback] = useState(false);
 
   useEffect(() => {
-    setLoaded(false);
     const init = async () => {
       let web3Data = await Moralis.Web3.enable();
       await setWeb3(web3Data);
@@ -696,6 +694,7 @@ const Contract = () => {
         console.log(contract);
         console.log(address);
       }
+      await getNFTs();
     };
     const getNFTs = async () => {
       if (contract) {
@@ -717,9 +716,6 @@ const Contract = () => {
       }
     };
     init();
-    getNFTs();
-    decodeImg();
-    setLoaded(true);
     console.log(NFTWallet);
   }, [address, walletAddress, callback]);
 
@@ -747,17 +743,11 @@ const Contract = () => {
 
   return (
     <div>
-      {error && <>error</>}
       <button onClick={() => mint()}>Mint</button>
       <div className='nfts'>
         {NFTWallet &&
           NFTWallet.map((nft) => {
-            console.log("nft image", nft.image);
-            return (
-              <div className='nft' key={nft}>
-                {nft.image}
-              </div>
-            );
+            return <img src={nft?.image} key={nft} />;
           })}
       </div>
     </div>
