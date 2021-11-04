@@ -17,10 +17,9 @@ function NFTBalance() {
         .catch((e) => alert(e.message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized]);
-  console.log(NFTBalance);
 
   return (
-    <Flex maxWidth="1200px" margin="0 15px">
+    <Flex maxWidth='1200px' margin='0 15px'>
       <h1 style={styles.title}>🎨NFT Balance</h1>
       <div style={styles.card}>
         <table style={styles.table}>

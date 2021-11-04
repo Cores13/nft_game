@@ -38,7 +38,8 @@ const styles = {
   navLink: {
     textDecoration: "none",
     fontWeight: "800",
-    color: "#374f72",
+    // color: "#374f72",
+    color: "#ffffff",
     fontFamily: "Roboto, sans-serif",
     fontSize: "18px",
   },
@@ -55,7 +56,10 @@ const styles = {
   },
 };
 const App = () => {
-  const { Moralis, authenticate, isAuthenticated, logout } = useMoralis();
+  const { Moralis, authenticateD, isAuthenticatedD, logoutD } =
+    useMoralisDapp();
+  const store = useContext(GlobalState);
+  const [callback, setCallback] = store.callback;
 
   return (
     <Router>
@@ -100,7 +104,8 @@ const App = () => {
           <NavLink
             to='/contract'
             style={styles.navLink}
-            activeStyle={styles.navLinkActive}>
+            activeStyle={styles.navLinkActive}
+            onClick={() => setCallback(!callback)}>
             Contract
           </NavLink>
         </div>
@@ -135,11 +140,15 @@ const App = () => {
           <Route path='/nftBalance'>
             <NFTBalance />
           </Route>
-          <Route path='/contract'>
+          {/* <Route path='/contract'>
             <Contract />
-          </Route>
+          </Route> */}
           {/* <Redirect from="/" to="/wallet" /> */}
-          {isAuthenticated ? <Route to='/game' component={Game} /> : null}
+          {isAuthenticatedD ? (
+            <Route to='/contract' component={Contract} />
+          ) : (
+            <Redirect to='/' />
+          )}
         </Switch>
       </div>
     </Router>

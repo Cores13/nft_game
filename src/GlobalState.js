@@ -6,14 +6,14 @@ import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvi
 export const GlobalState = createContext(undefined);
 
 export const DataProvider = ({ children }) => {
-  const { Moralis, authenticate, isAuthenticated, logout } = useMoralis();
-  const { walletAddress } = useMoralisDapp();
-  const [address, setAddress] = useState(walletAddress);
+  const { Moralis, authenticateD, isAuthenticatedD, logoutD, walletAddress } =
+    useMoralisDapp();
+  const [address, setAddress] = useState("");
   const [contract, setContract] = useState();
-  const [web3, setWeb3] = useState();
+  var [web3, setWeb3] = useState();
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
-  const [NFTWallet, setNFTWallet] = useState([]);
+  const [NFTWallet, setNFTWallet] = useState(NFTArray);
   const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
 
   const ABI = [
@@ -685,37 +685,31 @@ export const DataProvider = ({ children }) => {
   ];
 
   useEffect(() => {
-    if (isAuthenticated) {
+    setCallback(!callback);
+    if (isAuthenticatedD && walletAddress) {
       init();
+      setAddress(walletAddress);
     }
-  }, [walletAddress, address, isAuthenticated, authenticate, logout]);
+  }, [walletAddress, address, isAuthenticatedD, authenticateD]);
 
-  useEffect(() => {}, [
-    walletAddress,
-    address,
-    isAuthenticated,
-    authenticate,
-    logout,
-    callback,
-  ]);
+  useEffect(() => {
+    getNFTs();
+  }, [isAuthenticatedD, logoutD, contract, callback]);
 
   const init = async () => {
-    var web3Data = await Moralis.Web3.enable();
-    await setWeb3(web3Data);
-    await setAddress(walletAddress);
-    if (address) {
-      await getContract();
-      await getNFTs();
-    }
-    setCallback(!callback);
-  };
-
-  const getContract = async () => {
     try {
-      if (web3) {
-        const contractData = await new web3.eth.Contract(ABI, contractAddress);
+      var web3 = await Moralis.Web3.enable();
+      setAddress(walletAddress);
+      if (address || walletAddress || web3) {
+        var contractData = await new web3.eth.Contract(ABI, contractAddress);
         setContract(contractData);
+        setWeb3(web3);
+        console.log(address);
+        console.log("contractData", contractData);
+        setCallback(!callback);
       }
+      setCallback(!callback);
+      setAddress(walletAddress);
     } catch (error) {
       console.log(error);
     }
@@ -728,7 +722,8 @@ export const DataProvider = ({ children }) => {
           .walletOfOwner(address)
           .call();
         if (walletOfOwner) {
-          for (let id = 1; id <= walletOfOwner.length; id++) {
+          for (let i = 0; i < walletOfOwner.length; i++) {
+            var id = walletOfOwner[i];
             var nft = await contract.methods.tokenURI(id).call();
             if (nft) {
               const json = Buffer.from(nft.substring(29), "base64").toString();
@@ -737,12 +732,12 @@ export const DataProvider = ({ children }) => {
               }
               if (result) {
                 NFTArray.push(result);
-                // await setNFTWallet([...NFTWallet, result]);
               }
             }
           }
         }
-        await setNFTWallet(NFTArray);
+        setNFTWallet(NFTArray);
+        setCallback(!callback);
       }
     } catch (error) {
       console.log(error);
@@ -757,7 +752,7 @@ export const DataProvider = ({ children }) => {
     contractAddress: contractAddress,
     NFTArray: NFTArray,
     ABI: ABI,
-    MoralisContext: { Moralis, authenticate, isAuthenticated, logout },
+    MoralisContext: { Moralis, authenticateD, isAuthenticatedD, logoutD },
     callback: [callback, setCallback],
   };
 

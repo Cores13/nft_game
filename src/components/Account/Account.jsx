@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useMoralis } from "react-moralis";
 import Address from "../Address/Address";
 import NativeBalance from "../NativeBalance";
-
+import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
+import { GlobalState } from "../../GlobalState";
+import { useEffect } from "react/cjs/react.development";
 const styles = {
   account: {
     height: "42px",
@@ -24,13 +26,23 @@ const styles = {
 };
 
 function Account() {
-  const { authenticate, isAuthenticated, logout } = useMoralis();
+  const store = useContext(GlobalState);
+  const { isAuthenticated } = useMoralis();
+  const { authenticateD, isAuthenticatedD, logoutD } = useMoralisDapp();
+  const [callback, setCallback] = store.callback;
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    setCallback(!callback);
+  }, [isAuthenticatedD, isAuthenticated]);
+
+  if (!isAuthenticatedD) {
     return (
       <div style={styles.account}>
         <p
-          onClick={() => authenticate({ signingMessage: "Log in" })}
+          onClick={() => {
+            authenticateD({ signingMessage: "Log in" });
+            setCallback(!callback);
+          }}
           style={{ padding: "0 10px" }}>
           Login
         </p>
@@ -41,7 +53,9 @@ function Account() {
   return (
     <div
       style={{ ...styles.account, ...styles.wrapper }}
-      onClick={() => logout()}>
+      onClick={() => {
+        logoutD();
+      }}>
       <NativeBalance />
       <Address avatar size='5' />
     </div>

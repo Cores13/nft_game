@@ -6,7 +6,8 @@ import { GlobalState } from "../../GlobalState";
 
 const Contract = () => {
   const store = useContext(GlobalState);
-  const { isAuthenticated } = useMoralis();
+  const { walletAddress, isAuthenticatedD, authenticateD, logoutD } =
+    useMoralisDapp();
   const [address] = store.address;
   const [contract] = store.contract;
   const [web3] = store.web3;
@@ -19,11 +20,13 @@ const Contract = () => {
   }, []);
 
   useEffect(() => {}, [
-    NFTWallet,
-    NFTArray,
+    walletAddress,
     address,
-    isAuthenticated,
-    callback,
+    isAuthenticatedD,
+    authenticateD,
+    logoutD,
+    NFTWallet,
+    contract,
   ]);
 
   const mint = async () => {
@@ -36,7 +39,7 @@ const Contract = () => {
 
   return (
     <div>
-      {isAuthenticated && (
+      {isAuthenticatedD && (
         <>
           <button onClick={() => mint()}>Mint</button>
           <div className='nfts'>
@@ -44,13 +47,13 @@ const Contract = () => {
               NFTWallet.map((nft) => {
                 return (
                   <div className='nftCard' key={nft.name}>
-                    <img src={nft?.image} alt='' className='nftImg' />
-                    <h4 className='nftName'>Stamina:{nft?.name}</h4>
+                    <img src={nft.image} alt='' className='nftImg' />
+                    <h4 className='nftName'>Name:{nft.name}</h4>
                     <h4 className='nftStamina'>
-                      Stamina:{nft?.attributes[0]?.value}
+                      Stamina:{nft.attributes[0]?.value}
                     </h4>
                     <h4 className='nftStrength'>
-                      Strength:{nft?.attributes[1]?.value}
+                      Strength:{nft.attributes[1]?.value}
                     </h4>
                   </div>
                 );

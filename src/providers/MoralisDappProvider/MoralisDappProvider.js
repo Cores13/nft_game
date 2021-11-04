@@ -3,7 +3,11 @@ import { useMoralis } from "react-moralis";
 import MoralisDappContext from "./context";
 
 function MoralisDappProvider({ children }) {
-  const { web3, Moralis, user } = useMoralis();
+  const { web3, Moralis, user, authenticate, isAuthenticated, logout } =
+    useMoralis();
+  var authenticateD = authenticate;
+  var isAuthenticatedD = isAuthenticated;
+  var logoutD = logout;
   const [walletAddress, setWalletAddress] = useState();
   const [chainId, setChainId] = useState();
   useEffect(() => {
@@ -18,9 +22,29 @@ function MoralisDappProvider({ children }) {
   }, []);
 
   useEffect(() => setChainId(web3.givenProvider?.chainId));
-  useMemo(() => setWalletAddress(web3.givenProvider?.selectedAddress || user?.get("ethAddress")), [web3, user]);
+  useMemo(
+    () =>
+      setWalletAddress(
+        web3.givenProvider?.selectedAddress || user?.get("ethAddress")
+      ),
+    [web3, user]
+  );
 
-  return <MoralisDappContext.Provider value={{ walletAddress, chainId }}>{children}</MoralisDappContext.Provider>;
+  return (
+    <MoralisDappContext.Provider
+      value={{
+        walletAddress,
+        chainId,
+        web3,
+        Moralis,
+        user,
+        authenticateD,
+        isAuthenticatedD,
+        logoutD,
+      }}>
+      {children}
+    </MoralisDappContext.Provider>
+  );
 }
 
 function useMoralisDapp() {
