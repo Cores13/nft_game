@@ -31,11 +31,14 @@ function Account() {
   const { isAuthenticated } = useMoralis();
   const { authenticateD, isAuthenticatedD, logoutD } = useMoralisDapp();
   const [callback, setCallback] = store.callback;
+  // eslint-disable-next-line
+  const [NFTWallet, setNFTWallet] = store.NFTWallet;
 
   useEffect(() => {
+    setNFTWallet([]);
     setCallback(!callback);
     // eslint-disable-next-line
-  }, [isAuthenticatedD, isAuthenticated]);
+  }, [isAuthenticatedD, isAuthenticated, logoutD]);
 
   if (!isAuthenticatedD) {
     return (
@@ -58,6 +61,7 @@ function Account() {
       onClick={() => {
         logoutD();
         setCallback(!callback);
+        setNFTWallet([]);
       }}>
       <NativeBalance />
       <Address avatar size='5' />

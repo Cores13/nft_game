@@ -704,8 +704,8 @@ export const DataProvider = ({ children }) => {
         var contractData = await new web3.eth.Contract(ABI, contractAddress);
         setContract(contractData);
         setWeb3(web3);
-        console.log(address);
-        console.log("contractData", contractData);
+        // console.log(address);
+        // console.log("contractData", contractData);
         setCallback(!callback);
       }
       setCallback(!callback);

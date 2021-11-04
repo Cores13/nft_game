@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useMoralis } from "react-moralis";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,8 +7,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Account from "./components/Account";
-import Chains from "./components/Chains";
-import CoinPrice from "./components/CoinPrice";
 import Contract from "./components/Contract/Contract";
 import ERC20Balance from "./components/ERC20Balance";
 import ERC20Transfers from "./components/ERC20Transfers";
@@ -19,7 +16,6 @@ import Wallet from "./components/Wallet";
 import { Flex } from "./uikit/Flex/Flex";
 import { Game } from "./Pages/Game/Game";
 
-import { useWeb3ExecuteFunction } from "react-moralis";
 import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvider";
 import { GlobalState } from "./GlobalState";
 
@@ -56,8 +52,7 @@ const styles = {
   },
 };
 const App = () => {
-  const { Moralis, authenticateD, isAuthenticatedD, logoutD } =
-    useMoralisDapp();
+  const { isAuthenticatedD } = useMoralisDapp();
   const store = useContext(GlobalState);
   const [callback, setCallback] = store.callback;
 

@@ -8,8 +8,8 @@ import { styles } from "./styles";
 function NFTBalance() {
   const { fetchNFTBalance } = useNFTBalance();
   const { isInitialized } = useMoralis();
+  // eslint-disable-next-line
   const [NFTBalance, setNFTBalance] = useState();
-
   useEffect(() => {
     if (isInitialized)
       fetchNFTBalance()

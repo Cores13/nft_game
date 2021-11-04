@@ -1,6 +1,5 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
-import { useEffect, useState } from "react/cjs/react.development";
 import { getEllipsisTxt } from "../../utils/formatters";
 import { Flex } from "../../uikit/Flex/Flex";
 import useERC20Transfers from "./hooks/useERC20Transfers";
@@ -29,8 +28,7 @@ function ERC20Transfers() {
               ? null
               : ERC20Transfers.map((item, key) => (
                   <tr key={key}>
-                    {/* <td>{getEllipsisTxt(item.address, 5)}</td> */}
-                    <td>{item.address}</td>
+                    <td>{getEllipsisTxt(item.address, 5)}</td>
                     <td>{getEllipsisTxt(item.from_address, 5)}</td>
                     <td>{getEllipsisTxt(item.to_address, 5)}</td>
                     <td>

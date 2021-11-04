@@ -21,7 +21,9 @@ function MoralisDappProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // eslint-disable-next-line
   useEffect(() => setChainId(web3.givenProvider?.chainId));
+
   useMemo(
     () =>
       setWalletAddress(
