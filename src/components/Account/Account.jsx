@@ -30,7 +30,7 @@ function Account() {
     return (
       <div style={styles.account}>
         <p
-          onClick={() => authenticate({ signingMessage: "Hello World!" })}
+          onClick={() => authenticate({ signingMessage: "Log in" })}
           style={{ padding: "0 10px" }}>
           Login
         </p>

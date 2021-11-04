@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
@@ -18,6 +18,10 @@ import NFTBalance from "./components/NFTBalance";
 import Wallet from "./components/Wallet";
 import { Flex } from "./uikit/Flex/Flex";
 import { Game } from "./Pages/Game/Game";
+
+import { useWeb3ExecuteFunction } from "react-moralis";
+import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvider";
+import { GlobalState } from "./GlobalState";
 
 const styles = {
   content: {
@@ -51,7 +55,7 @@ const styles = {
   },
 };
 const App = () => {
-  const { isAuthenticated } = useMoralis();
+  const { Moralis, authenticate, isAuthenticated, logout } = useMoralis();
 
   return (
     <Router>

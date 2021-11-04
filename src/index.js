@@ -4,6 +4,7 @@ import App from "./App";
 import { MoralisProvider } from "react-moralis";
 import "./index.css";
 import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
+import { DataProvider } from "./GlobalState";
 
 const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
 const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
@@ -13,7 +14,9 @@ ReactDOM.render(
   <React.StrictMode>
     <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
       <MoralisDappProvider>
-        <App />
+        <DataProvider>
+          <App />
+        </DataProvider>
       </MoralisDappProvider>
     </MoralisProvider>
   </React.StrictMode>,
