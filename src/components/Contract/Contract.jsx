@@ -678,49 +678,88 @@ const Contract = () => {
   const [error, setError] = useState();
   const [contract, setContract] = useState();
   const [web3, setWeb3] = useState();
+  const [NFTWallet, setNFTWallet] = useState();
+  const [loaded, setLoaded] = useState(false);
+  var NFTArray = [];
+  const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
+  const [callback, setCallback] = useState(false);
 
   useEffect(() => {
+    setLoaded(false);
     const init = async () => {
       let web3Data = await Moralis.Web3.enable();
       await setWeb3(web3Data);
       if (web3) {
-        const contractData = await new web3.eth.Contract(
-          ABI,
-          "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4"
-        );
+        const contractData = await new web3.eth.Contract(ABI, contractAddress);
         await setContract(contractData);
         await setAddress(walletAddress);
         console.log(contract);
         console.log(address);
       }
     };
+    const getNFTs = async () => {
+      if (contract) {
+        var walletOfOwner = await contract.methods
+          .walletOfOwner(address)
+          .call();
+        await setNFTWallet(walletOfOwner);
+        walletOfOwner.map(async (id) => {
+          var nft = await contract.methods.tokenURI(id).call();
+          const json = await Buffer.from(
+            nft.substring(29),
+            "base64"
+          ).toString();
+          const result = await JSON.parse(json);
+          NFTArray.push(result);
+        });
+        await setNFTWallet(NFTArray);
+        setCallback(true);
+      }
+    };
     init();
-  }, [address, walletAddress]);
+    getNFTs();
+    decodeImg();
+    setLoaded(true);
+    console.log(NFTWallet);
+  }, [address, walletAddress, callback]);
 
-  async function task() {
-    var walletOfOwner = await contract.methods.walletOfOwner(address).call();
-    console.log(walletOfOwner); //null
+  const decodeImg = async () => {
+    if (NFTWallet) {
+      for (let id = 0; id < NFTWallet.length; id++) {
+        var imgData = await NFTWallet[id].image;
+        const json = await Buffer.from(
+          imgData.substring(26),
+          "base64"
+        ).toString();
+        NFTWallet[id].image = json;
+      }
+      setCallback(true);
+    }
+  };
 
+  const mint = async () => {
     const mintedNFT = await contract.methods.mint().send({
       from: address,
       value: web3.utils.toWei("0.005", "ether"),
     });
+    console.log(mintedNFT);
+  };
 
-    walletOfOwner = await contract.methods.walletOfOwner(address).call();
-
-    console.log(walletOfOwner); //null
-    console.log(mintedNFT); //null
-  }
   return (
     <div>
       {error && <>error</>}
-      <button
-        onClick={() => task()}
-        // disabled={contract.isFetching}
-      >
-        Fetch data
-      </button>
-      {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+      <button onClick={() => mint()}>Mint</button>
+      <div className='nfts'>
+        {NFTWallet &&
+          NFTWallet.map((nft) => {
+            console.log("nft image", nft.image);
+            return (
+              <div className='nft' key={nft}>
+                {nft.image}
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
