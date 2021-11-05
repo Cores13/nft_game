@@ -17,7 +17,9 @@ const Contract = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {}, [
+  useEffect(() => {
+    console.log(NFTWallet);
+  }, [
     walletAddress,
     address,
     isAuthenticatedD,

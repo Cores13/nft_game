@@ -14,7 +14,7 @@ import InchDex from "./components/InchDex";
 import NFTBalance from "./components/NFTBalance";
 import Wallet from "./components/Wallet";
 import { Flex } from "./uikit/Flex/Flex";
-import { Game } from "./Pages/Game/Game";
+import Create from "./Pages/Create/Create";
 
 import { useMoralisDapp } from "./providers/MoralisDappProvider/MoralisDappProvider";
 import { GlobalState } from "./GlobalState";
@@ -51,6 +51,9 @@ const styles = {
     gap: "30px",
   },
 };
+
+const ADMIN = process.env.REACT_APP_ADMIN;
+
 const App = () => {
   const { isAuthenticatedD } = useMoralisDapp();
   const store = useContext(GlobalState);
@@ -72,31 +75,12 @@ const App = () => {
             activeStyle={styles.navLinkActive}>
             Wallet
           </NavLink>
-          {/*<NavLink
-            to='/1inch'
-            style={styles.navLink}
-            activeStyle={styles.navLinkActive}>
-            Dex
-          </NavLink>
-          <NavLink
-            to='/erc20balance'
-            style={styles.navLink}
-            activeStyle={styles.navLinkActive}>
-            Balances
-          </NavLink>
-          */}
           <NavLink
             to='/erc20transfers'
             style={styles.navLink}
             activeStyle={styles.navLinkActive}>
             Transfers
           </NavLink>
-          {/* <NavLink
-            to='/nftBalance'
-            style={styles.navLink}
-            activeStyle={styles.navLink}>
-            NFT Balance
-          </NavLink> */}
           <NavLink
             to='/contract'
             style={styles.navLink}
@@ -104,23 +88,19 @@ const App = () => {
             onClick={() => setCallback(!callback)}>
             NFT Balance
           </NavLink>
+          <NavLink
+            to='/create'
+            style={styles.navLink}
+            activeStyle={styles.navLinkActive}>
+            Create
+          </NavLink>
         </div>
         <div style={styles.headerRight}>
-          {/* <CoinPrice
-            address='0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
-            chain='eth'
-            image='https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/'
-            size='40px'
-          />
-          <Chains polygon eth bsc avalanche /> */}
           <Account />
         </div>
       </Flex>
       <div style={styles.content}>
         <Switch>
-          <Route path='/game'>
-            <Game />
-          </Route>
           <Route path='/wallet'>
             <Wallet />
           </Route>
@@ -136,15 +116,14 @@ const App = () => {
           <Route path='/nftBalance'>
             <NFTBalance />
           </Route>
-          {/* <Route path='/contract'>
+          <Route path='/contract'>
             <Contract />
-          </Route> */}
-          {/* <Redirect from="/" to="/wallet" /> */}
-          {isAuthenticatedD ? (
-            <Route to='/contract' component={Contract} />
-          ) : (
-            <Redirect to='/' />
-          )}
+          </Route>
+          <Route path='/create'>
+            <Create />
+          </Route>
+          {/* <Route to='/contract' component={Contract} />
+          <Route to='/create' component={Create} /> */}
         </Switch>
       </div>
     </Router>
