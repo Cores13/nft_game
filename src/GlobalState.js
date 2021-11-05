@@ -13,6 +13,7 @@ export const DataProvider = ({ children }) => {
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
   const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
+  const [supply, setSupply] = useState(0);
 
   const ABI = [
     {
@@ -736,6 +737,8 @@ export const DataProvider = ({ children }) => {
             }
           }
         }
+        let supply = await contract.methods.totalSupply().call();
+        setSupply(supply);
         setNFTWallet(NFTArray);
         setCallback(!callback);
       }
@@ -754,6 +757,7 @@ export const DataProvider = ({ children }) => {
     ABI: ABI,
     MoralisContext: { Moralis, authenticateD, isAuthenticatedD, logoutD },
     callback: [callback, setCallback],
+    supply: [supply, setSupply],
   };
 
   return <GlobalState.Provider value={store}>{children}</GlobalState.Provider>;
