@@ -24,7 +24,8 @@ contract NFT is ERC721Enumerable, Ownable {
     string name;
     string description;
     string bgHue;
-    string circleHue;
+    // string circleHue;
+    bytes memory imageData;
     string textHue;
     string value;
     uint256 stamina;
@@ -34,7 +35,7 @@ contract NFT is ERC721Enumerable, Ownable {
   mapping(uint256 => Word) public Vocabulary;
 
   // public
-  function mint() public payable {
+  function mint(bytes memory image) public payable {
     uint256 supply = totalSupply();
     require(!paused);
     require(supply + 1 <= 10000);
@@ -44,11 +45,12 @@ contract NFT is ERC721Enumerable, Ownable {
       "This is on chain test NFT",
       randomNum(361, block.difficulty, supply).toString(),
       randomNum(361, block.timestamp, block.difficulty).toString(),
-      randomNum(361, block.timestamp, supply).toString(),
+      image,
       words[randomNum(words.length, block.timestamp, supply)],
       randomNum(1000, block.timestamp, block.difficulty),
-      randomNum(1000, block.timestamp, supply)
+      randomNum(1000, block.timestamp, supply),
     );
+      // randomNum(361, block.timestamp, supply).toString(),
 
     if (msg.sender != owner()) {
       require(msg.value >= 5000000000000000 wei);
@@ -81,9 +83,10 @@ contract NFT is ERC721Enumerable, Ownable {
             '<rect stroke="#000" height="603.00002" width="799" y="0" x="0.00001" fill="hsl(',
             currentWord.bgHue,
             ', 64%, 29%)"/>>',
-            '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',
-            currentWord.circleHue,
-            ', 64%, 29%)"/>',
+            
+            // '<path d="m394.5,531c-126.24309,0 -228.5,-100.91436 -228.5,-225.5c0,-124.58564 102.25691,-225.5 228.5,-225.5c126.24309,0 228.5,100.91436 228.5,225.5c0,124.58564 -102.25691,225.5 -228.5,225.5z" opacity="undefined" stroke="#000" fill="hsl(',
+            // currentWord.circleHue,
+            // ', 64%, 29%)"/>',
             '<text dominant-baseline="middle" stroke="#000" text-anchor="middle" font-size="24" stroke-width="0" y="50%" x="50%" fill="hsl(',
             currentWord.textHue,
             ', 58%, 69%)">',
