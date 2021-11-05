@@ -5,7 +5,7 @@ const Create = () => {
 
   return (
     <div>
-      <img src='./SilverLuckyCoing.svg' alt='' />
+      <img src='./SilverLuckyCoin.svg' alt='' />
       <button
         className='createBtn'
         onClick={() => {

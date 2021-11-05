@@ -42,11 +42,6 @@ const Contract = () => {
       {isAuthenticatedD && (
         <>
           <button onClick={() => mint()}>Mint</button>
-          <img
-            src='./GoldenLuckyCoin.svg'
-            alt=''
-            style={{ width: "800px", height: "800px" }}
-          />
           <div className='nfts'>
             {NFTWallet &&
               NFTWallet.map((nft) => {
