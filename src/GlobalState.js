@@ -11,9 +11,7 @@ export const DataProvider = ({ children }) => {
   var [web3, setWeb3] = useState();
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
-  var NFTFlipsArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const [NFTFlips, setNFTFlips] = useState(NFTFlipsArray);
   const contractAddress = "0xd7E8f8120DF08F9fBB55A594de64656d8280E07B";
   const [supply, setSupply] = useState(1);
 
@@ -740,7 +738,6 @@ export const DataProvider = ({ children }) => {
   }, [walletAddress, isAuthenticatedD, authenticateD]);
 
   useEffect(() => {
-    getNFTFlips();
     getNFTs();
     // eslint-disable-next-line
   }, [isAuthenticatedD, logoutD, contract, callback]);
@@ -774,13 +771,14 @@ export const DataProvider = ({ children }) => {
           for (let i = 0; i < walletOfOwner.length; i++) {
             var id = walletOfOwner[i];
             var nft = await contract.methods.tokenURI(id).call();
+            var nftFlips = await contract.methods.Vocabulary(id).call();
             if (nft) {
               const json = Buffer.from(nft.substring(29), "base64").toString();
               if (json) {
                 var result = await JSON.parse(json);
               }
               if (result) {
-                NFTArray.push(result);
+                NFTArray.push({ ...result, id: id, flips: nftFlips.flips });
               }
             }
           }
@@ -789,31 +787,6 @@ export const DataProvider = ({ children }) => {
         setSupply(supply + 1);
         setNFTWallet(NFTArray);
         setCallback(!callback);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getNFTFlips = async () => {
-    try {
-      if (contract) {
-        let walletOfOwner = await contract.methods
-          .walletOfOwner(address)
-          .call();
-        if (walletOfOwner) {
-          for (let i = 0; i < walletOfOwner.length; i++) {
-            var id = walletOfOwner[i];
-            var nft = await contract.methods.Vocabulary(id).call();
-            if (nft) {
-              NFTFlipsArray.push({ id: id, flips: nft.flips });
-            }
-          }
-          let supply = await contract.methods.totalSupply().call();
-          setSupply(supply + 1);
-          setNFTFlips(NFTFlipsArray);
-          setCallback(!callback);
-        }
       }
     } catch (error) {
       console.log(error);
@@ -831,7 +804,6 @@ export const DataProvider = ({ children }) => {
     MoralisContext: { Moralis, authenticateD, isAuthenticatedD, logoutD },
     callback: [callback, setCallback],
     supply: [supply, setSupply],
-    NFTFlips: [NFTFlips, setNFTFlips],
   };
 
   return <GlobalState.Provider value={store}>{children}</GlobalState.Provider>;
