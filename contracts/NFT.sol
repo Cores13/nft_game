@@ -35,7 +35,7 @@ contract NFT is ERC721Enumerable, Ownable {
   mapping(uint256 => Word) public Vocabulary;
 
   // public
-  function mint(bytes memory image) public payable {
+  function mint(bytes memory _image) public payable {
     uint256 supply = totalSupply();
     require(!paused);
     require(supply + 1 <= 10000);
@@ -45,7 +45,7 @@ contract NFT is ERC721Enumerable, Ownable {
       "This is on chain test NFT",
       randomNum(361, block.difficulty, supply).toString(),
       randomNum(361, block.timestamp, block.difficulty).toString(),
-      image,
+      _image,
       words[randomNum(words.length, block.timestamp, supply)],
       randomNum(1000, block.timestamp, block.difficulty),
       randomNum(1000, block.timestamp, supply),

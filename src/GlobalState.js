@@ -12,8 +12,9 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
-  const [supply, setSupply] = useState(0);
+  // const contractAddress = "0x4AA794809fb840116C258b14B62ED0e8ca5B65b4";
+  const contractAddress = "0xd7E8f8120DF08F9fBB55A594de64656d8280E07B";
+  const [supply, setSupply] = useState(1);
 
   const ABI = [
     {
@@ -143,12 +144,22 @@ export const DataProvider = ({ children }) => {
         },
         {
           internalType: "string",
-          name: "bgHue",
+          name: "value",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "number",
+          type: "uint256",
+        },
+        {
+          internalType: "string",
+          name: "image",
           type: "string",
         },
         {
           internalType: "string",
-          name: "circleHue",
+          name: "bgHue",
           type: "string",
         },
         {
@@ -157,8 +168,13 @@ export const DataProvider = ({ children }) => {
           type: "string",
         },
         {
+          internalType: "uint256",
+          name: "flips",
+          type: "uint256",
+        },
+        {
           internalType: "string",
-          name: "value",
+          name: "nation",
           type: "string",
         },
       ],
@@ -225,6 +241,25 @@ export const DataProvider = ({ children }) => {
       inputs: [
         {
           internalType: "uint256",
+          name: "_tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "flip",
+      outputs: [
+        {
+          internalType: "uint8",
+          name: "",
+          type: "uint8",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
           name: "tokenId",
           type: "uint256",
         },
@@ -265,7 +300,18 @@ export const DataProvider = ({ children }) => {
       type: "function",
     },
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: "string",
+          name: "_nation",
+          type: "string",
+        },
+        {
+          internalType: "string",
+          name: "_image",
+          type: "string",
+        },
+      ],
       name: "mint",
       outputs: [],
       stateMutability: "payable",
@@ -683,6 +729,674 @@ export const DataProvider = ({ children }) => {
     },
   ];
 
+  // const ABI = [
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "_initNotRevealedUri",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "nonpayable",
+  //     type: "constructor",
+  //   },
+  //   {
+  //     anonymous: false,
+  //     inputs: [
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "owner",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "approved",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "Approval",
+  //     type: "event",
+  //   },
+  //   {
+  //     anonymous: false,
+  //     inputs: [
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "owner",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "operator",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "bool",
+  //         name: "approved",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     name: "ApprovalForAll",
+  //     type: "event",
+  //   },
+  //   {
+  //     anonymous: false,
+  //     inputs: [
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "previousOwner",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "newOwner",
+  //         type: "address",
+  //       },
+  //     ],
+  //     name: "OwnershipTransferred",
+  //     type: "event",
+  //   },
+  //   {
+  //     anonymous: false,
+  //     inputs: [
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "from",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "to",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "Transfer",
+  //     type: "event",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "Vocabulary",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "name",
+  //         type: "string",
+  //       },
+  //       {
+  //         internalType: "string",
+  //         name: "description",
+  //         type: "string",
+  //       },
+  //       {
+  //         internalType: "string",
+  //         name: "bgHue",
+  //         type: "string",
+  //       },
+  //       {
+  //         internalType: "string",
+  //         name: "circleHue",
+  //         type: "string",
+  //       },
+  //       {
+  //         internalType: "string",
+  //         name: "textHue",
+  //         type: "string",
+  //       },
+  //       {
+  //         internalType: "string",
+  //         name: "value",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "to",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "approve",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "owner",
+  //         type: "address",
+  //       },
+  //     ],
+  //     name: "balanceOf",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "_tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "buildImage",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "getApproved",
+  //     outputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "",
+  //         type: "address",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "owner",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "address",
+  //         name: "operator",
+  //         type: "address",
+  //       },
+  //     ],
+  //     name: "isApprovedForAll",
+  //     outputs: [
+  //       {
+  //         internalType: "bool",
+  //         name: "",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "mint",
+  //     outputs: [],
+  //     stateMutability: "payable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "name",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "notRevealedUri",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "owner",
+  //     outputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "",
+  //         type: "address",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "ownerOf",
+  //     outputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "",
+  //         type: "address",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "bool",
+  //         name: "_state",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     name: "pause",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "paused",
+  //     outputs: [
+  //       {
+  //         internalType: "bool",
+  //         name: "",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "_mod",
+  //         type: "uint256",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "_seed",
+  //         type: "uint256",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "_salt",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "randomNum",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "renounceOwnership",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "reveal",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "revealed",
+  //     outputs: [
+  //       {
+  //         internalType: "bool",
+  //         name: "",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "from",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "address",
+  //         name: "to",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "safeTransferFrom",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "from",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "address",
+  //         name: "to",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //       {
+  //         internalType: "bytes",
+  //         name: "_data",
+  //         type: "bytes",
+  //       },
+  //     ],
+  //     name: "safeTransferFrom",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "operator",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "bool",
+  //         name: "approved",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     name: "setApprovalForAll",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "_notRevealedURI",
+  //         type: "string",
+  //       },
+  //     ],
+  //     name: "setNotRevealedURI",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "bytes4",
+  //         name: "interfaceId",
+  //         type: "bytes4",
+  //       },
+  //     ],
+  //     name: "supportsInterface",
+  //     outputs: [
+  //       {
+  //         internalType: "bool",
+  //         name: "",
+  //         type: "bool",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "symbol",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "index",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "tokenByIndex",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "owner",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "index",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "tokenOfOwnerByIndex",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "_tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "tokenURI",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "totalSupply",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "from",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "address",
+  //         name: "to",
+  //         type: "address",
+  //       },
+  //       {
+  //         internalType: "uint256",
+  //         name: "tokenId",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "transferFrom",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "newOwner",
+  //         type: "address",
+  //       },
+  //     ],
+  //     name: "transferOwnership",
+  //     outputs: [],
+  //     stateMutability: "nonpayable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "address",
+  //         name: "_owner",
+  //         type: "address",
+  //       },
+  //     ],
+  //     name: "walletOfOwner",
+  //     outputs: [
+  //       {
+  //         internalType: "uint256[]",
+  //         name: "",
+  //         type: "uint256[]",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [],
+  //     name: "withdraw",
+  //     outputs: [],
+  //     stateMutability: "payable",
+  //     type: "function",
+  //   },
+  //   {
+  //     inputs: [
+  //       {
+  //         internalType: "uint256",
+  //         name: "",
+  //         type: "uint256",
+  //       },
+  //     ],
+  //     name: "words",
+  //     outputs: [
+  //       {
+  //         internalType: "string",
+  //         name: "",
+  //         type: "string",
+  //       },
+  //     ],
+  //     stateMutability: "view",
+  //     type: "function",
+  //   },
+  // ];
+
   useEffect(() => {
     setCallback(!callback);
     if (isAuthenticatedD && walletAddress) {
@@ -738,7 +1452,7 @@ export const DataProvider = ({ children }) => {
           }
         }
         let supply = await contract.methods.totalSupply().call();
-        setSupply(supply);
+        setSupply(supply + 1);
         setNFTWallet(NFTArray);
         setCallback(!callback);
       }
