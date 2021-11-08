@@ -19,22 +19,31 @@ const Contract = () => {
 
   useEffect(() => {
     console.log(NFTWallet);
-  }, [
-    walletAddress,
-    address,
-    isAuthenticatedD,
-    authenticateD,
-    logoutD,
-    NFTWallet,
-    contract,
-  ]);
+  }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
   const mint = async () => {
-    const mintedNFT = await contract.methods.mint().send({
-      from: address,
-      value: web3.utils.toWei("0.005", "ether"),
-    });
-    console.log(mintedNFT);
+    try {
+      const mintedNFT = await contract.methods.mint().send({
+        from: address,
+        value: web3.utils.toWei("0.005", "ether"),
+      });
+      console.log(mintedNFT);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const flip = async (e) => {
+    try {
+      let flipedNFT = await contract.methods
+        .flip(e.target.value)
+        .call({ from: address });
+      if (flipedNFT) {
+        console.log(flipedNFT);
+        setCallback(!callback);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,15 +55,20 @@ const Contract = () => {
             {NFTWallet &&
               NFTWallet.map((nft) => {
                 return (
-                  <div className='nftCard' key={nft.name}>
-                    <img src={nft.image} alt='' className='nftImg' />
-                    <h4 className='nftName'>Name:{nft.name}</h4>
+                  <div className='nftCard' key={nft.id}>
+                    <img src={`${nft.image}`} alt='' className='nftImg' />
+                    <h4 className='nftName'>Name: {nft.name}</h4>
+                    <h4 className='nftName'>Id: {nft.id}</h4>
                     <h4 className='nftStamina'>
-                      Stamina:{nft.attributes[0]?.value}
+                      Nation: {nft.attributes[0]?.value}
                     </h4>
-                    <h4 className='nftStrength'>
-                      Strength:{nft.attributes[1]?.value}
-                    </h4>
+                    <h4 className='nftStrength'>Flips: {nft.flips}</h4>
+                    <button
+                      className='flipBtn'
+                      value={nft.id}
+                      onClick={(e) => flip(e)}>
+                      Flip
+                    </button>
                   </div>
                 );
               })}
