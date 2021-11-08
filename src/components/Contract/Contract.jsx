@@ -34,8 +34,13 @@ const Contract = () => {
   };
   const flip = async (e) => {
     try {
-      const flipedNFT = await contract.methods.flip(e.target.value).call();
-      console.log(flipedNFT);
+      let flipedNFT = await contract.methods
+        .flip(e.target.value)
+        .call({ from: address });
+      if (flipedNFT) {
+        console.log(flipedNFT);
+        setCallback(!callback);
+      }
     } catch (error) {
       console.log(error);
     }
