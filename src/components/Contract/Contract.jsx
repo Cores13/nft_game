@@ -10,6 +10,7 @@ const Contract = () => {
   const [contract] = store.contract;
   const [web3] = store.web3;
   const [NFTWallet] = store.NFTWallet;
+  const [NFTFlips] = store.NFTFlips;
   const [callback, setCallback] = store.callback;
 
   useEffect(() => {
@@ -19,15 +20,8 @@ const Contract = () => {
 
   useEffect(() => {
     console.log(NFTWallet);
-  }, [
-    walletAddress,
-    address,
-    isAuthenticatedD,
-    authenticateD,
-    logoutD,
-    NFTWallet,
-    contract,
-  ]);
+    console.log("flips", NFTFlips);
+  }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
   const mint = async () => {
     const mintedNFT = await contract.methods.mint().send({
@@ -47,14 +41,12 @@ const Contract = () => {
               NFTWallet.map((nft) => {
                 return (
                   <div className='nftCard' key={nft.name}>
-                    <img src={nft.image} alt='' className='nftImg' />
-                    <h4 className='nftName'>Name:{nft.name}</h4>
+                    <img src={`${nft.image}`} alt='' className='nftImg' />
+                    <h4 className='nftName'>Name: {nft.name}</h4>
                     <h4 className='nftStamina'>
-                      Stamina:{nft.attributes[0]?.value}
+                      Nation:{nft.attributes[0]?.value}
                     </h4>
-                    <h4 className='nftStrength'>
-                      Strength:{nft.attributes[1]?.value}
-                    </h4>
+                    <h4 className='nftStrength'>Flips: {NFTFlips[1]?.flips}</h4>
                   </div>
                 );
               })}
