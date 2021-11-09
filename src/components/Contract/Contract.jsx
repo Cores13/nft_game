@@ -19,26 +19,17 @@ const Contract = () => {
 
   useEffect(() => {
     console.log(NFTWallet);
+    // eslint-disable-next-line
   }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
-  const mint = async () => {
-    try {
-      const mintedNFT = await contract.methods.mint().send({
-        from: address,
-        value: web3.utils.toWei("0.005", "ether"),
-      });
-      console.log(mintedNFT);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const flip = async (e) => {
     try {
       let flipedNFT = await contract.methods
         .flip(e.target.value)
-        .call({ from: address });
+        .send({ from: address });
       if (flipedNFT) {
         console.log(flipedNFT);
+        console.log(e.target.value);
         setCallback(!callback);
       }
     } catch (error) {
@@ -50,7 +41,6 @@ const Contract = () => {
     <div>
       {isAuthenticatedD && (
         <>
-          <button onClick={() => mint()}>Mint</button>
           <div className='nfts'>
             {NFTWallet &&
               NFTWallet.map((nft) => {

@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x1b844536047094C131F8af32fB0430dfC93b36b2";
+  const contractAddress = "0x2bFF3D3887fD45966D629398675E2e1Cab76c698";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
@@ -144,7 +144,7 @@ export const DataProvider = ({ children }) => {
           type: "uint8",
         },
       ],
-      stateMutability: "nonpayable",
+      stateMutability: "payable",
       type: "function",
     },
     {
@@ -730,7 +730,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     getNFTs();
     // eslint-disable-next-line
-  }, [isAuthenticatedD, logoutD, contract, callback]);
+  }, [logoutD, contract, callback]);
 
   const init = async () => {
     try {
@@ -754,6 +754,7 @@ export const DataProvider = ({ children }) => {
         let walletOfOwner = await contract.methods
           .walletOfOwner(address)
           .call();
+        let supply = await contract.methods.totalSupply().call();
         if (walletOfOwner) {
           for (let i = 0; i < walletOfOwner.length; i++) {
             var id = walletOfOwner[i];
@@ -770,8 +771,11 @@ export const DataProvider = ({ children }) => {
             }
           }
         }
-        let supply = await contract.methods.totalSupply().call();
-        setSupply(supply + 1);
+        if (supply == 0) {
+          setSupply(1);
+        } else {
+          setSupply((prevSupply) => prevSupply + 1);
+        }
         setNFTWallet(NFTArray);
         setCallback(!callback);
       }
