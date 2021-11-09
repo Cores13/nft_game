@@ -61,11 +61,11 @@ contract NFT is ERC721Enumerable, Ownable {
     require(msg.sender == ownerOf(_tokenId));
     uint8 side = uint8(
       randomNum(
-        block.timestamp,
+        2,
         randomNum(block.timestamp, block.difficulty, block.timestamp),
-        block.difficulty
+        randomNum(block.timestamp, block.difficulty, block.timestamp)
       )
-    ) % 2;
+    );
     Vocabulary[_tokenId].flips += 1;
     return side;
   }
