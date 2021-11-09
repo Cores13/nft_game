@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x1b844536047094C131F8af32fB0430dfC93b36b2";
+  const contractAddress = "0xCC6466D00e0460fc6861EDc7A5bc8aF4D88cB5C0";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
@@ -144,7 +144,7 @@ export const DataProvider = ({ children }) => {
           type: "uint8",
         },
       ],
-      stateMutability: "nonpayable",
+      stateMutability: "payable",
       type: "function",
     },
     {
@@ -311,13 +311,6 @@ export const DataProvider = ({ children }) => {
       type: "function",
     },
     {
-      inputs: [],
-      name: "withdraw",
-      outputs: [],
-      stateMutability: "payable",
-      type: "function",
-    },
-    {
       inputs: [
         {
           internalType: "string",
@@ -327,6 +320,13 @@ export const DataProvider = ({ children }) => {
       ],
       stateMutability: "nonpayable",
       type: "constructor",
+    },
+    {
+      inputs: [],
+      name: "withdraw",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
     },
     {
       inputs: [
