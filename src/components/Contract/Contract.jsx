@@ -19,6 +19,7 @@ const Contract = () => {
 
   useEffect(() => {
     console.log(NFTWallet);
+    // eslint-disable-next-line
   }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
   const mint = async () => {

@@ -730,7 +730,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     getNFTs();
     // eslint-disable-next-line
-  }, [isAuthenticatedD, logoutD, contract, callback]);
+  }, [logoutD, contract, callback]);
 
   const init = async () => {
     try {

@@ -37,7 +37,6 @@ contract NFT is ERC721Enumerable, Ownable {
     uint256 supply = totalSupply();
     require(!paused);
     require(supply + 1 <= 4000); // Total coins
-    uint256 flips = 0;
 
     Word memory newWord = Word(
       string(abi.encodePacked("OCN #", uint256(supply + 1).toString())),
@@ -45,7 +44,7 @@ contract NFT is ERC721Enumerable, Ownable {
       words[randomNum(words.length, block.timestamp, supply)],
       supply + 1,
       _image,
-      flips,
+      0,
       _nation
     );
 
@@ -58,11 +57,16 @@ contract NFT is ERC721Enumerable, Ownable {
     _safeMint(msg.sender, supply + 1);
   }
 
-  function flip(uint256 _tokenId) public view returns (uint8) {
-    Word memory currentWord = Vocabulary[_tokenId];
-    require(ownerOf(_tokenId) == msg.sender);
-    uint8 side = uint8(randomNum(2, block.timestamp, block.difficulty));
-    currentWord.flips += 1;
+  function flip(uint256 _tokenId) public payable returns (uint8) {
+    require(msg.sender == ownerOf(_tokenId));
+    uint8 side = uint8(
+      randomNum(
+        block.timestamp,
+        randomNum(block.timestamp, block.difficulty, block.timestamp),
+        block.difficulty
+      )
+    ) % 2;
+    Vocabulary[_tokenId].flips += 1;
     return side;
   }
 
