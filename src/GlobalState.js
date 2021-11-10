@@ -12,10 +12,21 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x69244B837B8343b3De146ece0a96cFdD46653481";
+  const contractAddress = "0x39B86dC4DCb4bcadF6f76145057ccdcaf6C5E744";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "_initNotRevealedUri",
+          type: "string",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
     {
       anonymous: false,
       inputs: [
@@ -70,6 +81,37 @@ export const DataProvider = ({ children }) => {
       anonymous: false,
       inputs: [
         {
+          indexed: false,
+          internalType: "uint256",
+          name: "_tokenId",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "side",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "fliped",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "nextFlip",
+          type: "uint256",
+        },
+      ],
+      name: "Fliped",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
           indexed: true,
           internalType: "address",
           name: "previousOwner",
@@ -113,6 +155,60 @@ export const DataProvider = ({ children }) => {
     {
       inputs: [
         {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "Vocabulary",
+      outputs: [
+        {
+          internalType: "string",
+          name: "name",
+          type: "string",
+        },
+        {
+          internalType: "string",
+          name: "description",
+          type: "string",
+        },
+        {
+          internalType: "string",
+          name: "value",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "number",
+          type: "uint256",
+        },
+        {
+          internalType: "string",
+          name: "image",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "flips",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "lastFlip",
+          type: "uint256",
+        },
+        {
+          internalType: "string",
+          name: "nation",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
           internalType: "address",
           name: "to",
           type: "address",
@@ -126,6 +222,44 @@ export const DataProvider = ({ children }) => {
       name: "approve",
       outputs: [],
       stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "owner",
+          type: "address",
+        },
+      ],
+      name: "balanceOf",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "_tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "buildImage",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
       type: "function",
     },
     {
@@ -150,6 +284,49 @@ export const DataProvider = ({ children }) => {
     {
       inputs: [
         {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "getApproved",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "owner",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "operator",
+          type: "address",
+        },
+      ],
+      name: "isApprovedForAll",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
           internalType: "string",
           name: "_nation",
           type: "string",
@@ -163,6 +340,64 @@ export const DataProvider = ({ children }) => {
       name: "mint",
       outputs: [],
       stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "name",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "notRevealedUri",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "ownerOf",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
       type: "function",
     },
     {
@@ -180,6 +415,48 @@ export const DataProvider = ({ children }) => {
     },
     {
       inputs: [],
+      name: "paused",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "_mod",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "_seed",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "_salt",
+          type: "uint256",
+        },
+      ],
+      name: "randomNum",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
       name: "renounceOwnership",
       outputs: [],
       stateMutability: "nonpayable",
@@ -190,6 +467,19 @@ export const DataProvider = ({ children }) => {
       name: "reveal",
       outputs: [],
       stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "revealed",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
       type: "function",
     },
     {
@@ -272,254 +562,6 @@ export const DataProvider = ({ children }) => {
       name: "setNotRevealedURI",
       outputs: [],
       stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "transferFrom",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "transferOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "withdraw",
-      outputs: [],
-      stateMutability: "payable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "string",
-          name: "_initNotRevealedUri",
-          type: "string",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-      ],
-      name: "balanceOf",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "_tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "buildImage",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "getApproved",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "operator",
-          type: "address",
-        },
-      ],
-      name: "isApprovedForAll",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "name",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "notRevealedUri",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "owner",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "ownerOf",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "paused",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "_mod",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "_seed",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "_salt",
-          type: "uint256",
-        },
-      ],
-      name: "randomNum",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "revealed",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "view",
       type: "function",
     },
     {
@@ -632,50 +674,37 @@ export const DataProvider = ({ children }) => {
     {
       inputs: [
         {
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
           internalType: "uint256",
-          name: "",
+          name: "tokenId",
           type: "uint256",
         },
       ],
-      name: "Vocabulary",
-      outputs: [
+      name: "transferFrom",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
         {
-          internalType: "string",
-          name: "name",
-          type: "string",
-        },
-        {
-          internalType: "string",
-          name: "description",
-          type: "string",
-        },
-        {
-          internalType: "string",
-          name: "value",
-          type: "string",
-        },
-        {
-          internalType: "uint256",
-          name: "number",
-          type: "uint256",
-        },
-        {
-          internalType: "string",
-          name: "image",
-          type: "string",
-        },
-        {
-          internalType: "uint256",
-          name: "flips",
-          type: "uint256",
-        },
-        {
-          internalType: "string",
-          name: "nation",
-          type: "string",
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
         },
       ],
-      stateMutability: "view",
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
       type: "function",
     },
     {
@@ -695,6 +724,13 @@ export const DataProvider = ({ children }) => {
         },
       ],
       stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "withdraw",
+      outputs: [],
+      stateMutability: "payable",
       type: "function",
     },
     {
@@ -760,14 +796,19 @@ export const DataProvider = ({ children }) => {
           for (let i = 0; i < walletOfOwner.length; i++) {
             var id = walletOfOwner[i];
             var nft = await contract.methods.tokenURI(id).call();
-            var nftFlips = await contract.methods.Vocabulary(id).call();
+            var nftObj = await contract.methods.Vocabulary(id).call();
             if (nft) {
               const json = Buffer.from(nft.substring(29), "base64").toString();
               if (json) {
                 var result = await JSON.parse(json);
               }
               if (result) {
-                NFTArray.push({ ...result, id: id, flips: nftFlips.flips });
+                NFTArray.push({
+                  ...result,
+                  id: id,
+                  flips: nftObj.flips,
+                  lastFlip: nftObj.lastFlip,
+                });
               }
             }
           }
