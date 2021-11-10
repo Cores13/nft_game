@@ -82,7 +82,11 @@ const Contract = () => {
         .flip(e.target.value)
         .send({ from: address });
       if (flipedNFT) {
-        console.log(flipedNFT.events.Fliped.returnValues.side);
+        if (flipedNFT.events.Fliped.returnValues.side === 0) {
+          console.log("heads");
+        } else {
+          console.log("tails");
+        }
         setCallback(!callback);
         var duration =
           flipedNFT.events.Fliped.returnValues.nextFlip -
