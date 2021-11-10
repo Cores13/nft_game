@@ -11,6 +11,19 @@ const Create = () => {
 
   var gradient1 = Math.floor(Math.random() * 361);
   var gradient2 = Math.floor(Math.random() * 361);
+  const nations = [
+    "Roman",
+    "Greek",
+    "Arabian",
+    "Turkish",
+    "Chinese",
+    "English",
+    "German",
+    "Russian",
+    "American",
+    "Brazilian",
+    "Mexican",
+  ];
 
   // private property
   const _keyStr =
@@ -147,6 +160,7 @@ const Create = () => {
   const getImage = async () => {
     gradient1 = Math.floor(Math.random() * 361);
     gradient2 = Math.ceil(Math.random() * 361);
+    let saying = String(nations[Math.floor(Math.random() * nations.length)]);
     let img = `<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
  <g>
   <title>Layer 1</title>
@@ -155,9 +169,7 @@ const Create = () => {
   <path stroke-width="2" stroke-opacity="0.5" stroke="#000000" fill="#f4f4f4" opacity="undefined" d="m400.55556,531c-123.20442,0 -223,-100.91436 -223,-225.5c0,-124.58564 99.79558,-225.5 223,-225.5c123.20442,0 223,100.91436 223,225.5c0,124.58564 -99.79558,225.5 -223,225.5z" id="svg_1"/>
   <path stroke="#000000" stroke-width="2" stroke-opacity="0.5" fill="url(#svg_21)" opacity="undefined" d="m400.55557,527.32285c-120.69311,0 -218.45452,-99.06309 -218.45452,-221.36321c0,-122.30012 97.76141,-221.36321 218.45452,-221.36321c120.6931,0 218.45451,99.06309 218.45451,221.36321c0,122.30012 -97.76141,221.36321 -218.45451,221.36321z" id="svg_4"/>
   <path stroke="#000000" id="svg_93" d="m401.35233,387.00369l-119.6918,86.95303l45.75342,-140.65536l-119.66486,-86.95303l147.91719,0.02695l39.31345,-120.94475l6.41302,-19.64325l45.67258,140.56105l147.95761,0l-119.71875,86.95303l45.76689,140.69578l-119.71875,-86.99345l0,0z" stroke-opacity="0.1" stroke-width="2" fill="url(#svg_102)"/>
-  <text font-weight="bold" fill="url(#svg_23)" x="283.26866" y="287.56447" id="svg_18" stroke-width="0" font-size="16" font-family="'Cinzel'" text-anchor="start" xml:space="preserve" stroke="#000" transform="matrix(1.14169 0 0 2.29233 -116.913 -385.053)">"${Math.floor(
-    Math.random() * 361
-  )}"</text>
+  <text font-weight="bold" fill="url(#svg_23)" x="283.26866" y="287.56447" id="svg_18" stroke-width="0" font-size="16" font-family="'Cinzel'" text-anchor="start" xml:space="preserve" stroke="#000" transform="matrix(1.14169 0 0 2.29233 -116.913 -385.053)">"${saying}"</text>
   <rect transform="rotate(14.3186 179.985 245.156)" stroke-width="0.1" stroke="#000000" id="svg_2" height="9" width="9.06828" y="240.65644" x="175.4504" stroke-opacity="0.5" fill="#969696"/>
   <rect transform="rotate(-15.2478 181.91 372.863)" stroke="#000000" stroke-width="0.1" id="svg_3" height="9" width="8.53228" y="368.36347" x="177.64363" stroke-opacity="0.5" fill="#7a7a7a"/>
   <text xml:space="preserve" text-anchor="start" font-family="'Cinzel'" font-size="54" id="svg_27" y="150.00133" x="313.63849" stroke-width="0" stroke="#000" fill="url(#svg_23)">#${supply}</text>
@@ -227,12 +239,14 @@ const Create = () => {
 
   const create = async () => {
     const image = await getImage();
-    let encodedImg = utf8_to_b64(image);
-    console.log("image", typeof image);
-    console.log("data:image/svg+xml;base64,", encodedImg);
+    // let encodedImg = utf8_to_b64(image);
+    // console.log("data:image/svg+xml;base64,", encodedImg);
     if (image) {
       const mintedNFT = await contract.methods
-        .mint("Roman", String(image))
+        .mint(
+          String(nations[Math.floor(Math.random() * nations.length)]),
+          String(image)
+        )
         .send({
           from: address,
           value: web3.utils.toWei("0.005", "ether"),

@@ -28,8 +28,8 @@ const Contract = () => {
         .flip(e.target.value)
         .send({ from: address });
       if (flipedNFT) {
-        console.log(flipedNFT);
-        console.log(e.target.value);
+        console.log(flipedNFT.events.Fliped.returnValues.side);
+        // console.log(flipedNFT.events.Fliped.returnValues._tokenId);
         setCallback(!callback);
       }
     } catch (error) {

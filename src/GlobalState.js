@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x69244B837B8343b3De146ece0a96cFdD46653481";
+  const contractAddress = "0x87052507c5c0B4062D46baAAb25368f0F7755e13";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
@@ -64,6 +64,25 @@ export const DataProvider = ({ children }) => {
         },
       ],
       name: "ApprovalForAll",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "_tokenId",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "side",
+          type: "uint8",
+        },
+      ],
+      name: "Fliped",
       type: "event",
     },
     {

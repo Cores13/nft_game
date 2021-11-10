@@ -32,6 +32,8 @@ contract NFT is ERC721Enumerable, Ownable {
 
   mapping(uint256 => Word) public Vocabulary;
 
+  event Fliped(uint256 _tokenId, uint8 side);
+
   // public
   function mint(string memory _nation, string memory _image) public payable {
     uint256 supply = totalSupply();
@@ -67,6 +69,7 @@ contract NFT is ERC721Enumerable, Ownable {
       )
     );
     Vocabulary[_tokenId].flips += 1;
+    emit Fliped(_tokenId, side);
     return side;
   }
 
