@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x2bFF3D3887fD45966D629398675E2e1Cab76c698";
+  const contractAddress = "0x69244B837B8343b3De146ece0a96cFdD46653481";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
@@ -754,7 +754,8 @@ export const DataProvider = ({ children }) => {
         let walletOfOwner = await contract.methods
           .walletOfOwner(address)
           .call();
-        let supply = await contract.methods.totalSupply().call();
+        let supply =
+          parseInt(await contract.methods.totalSupply().call()) + parseInt(1);
         if (walletOfOwner) {
           for (let i = 0; i < walletOfOwner.length; i++) {
             var id = walletOfOwner[i];
@@ -771,11 +772,7 @@ export const DataProvider = ({ children }) => {
             }
           }
         }
-        if (supply == 0) {
-          setSupply(1);
-        } else {
-          setSupply((prevSupply) => prevSupply + 1);
-        }
+        setSupply(supply);
         setNFTWallet(NFTArray);
         setCallback(!callback);
       }

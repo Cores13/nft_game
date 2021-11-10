@@ -5,11 +5,10 @@ const Create = () => {
   const store = useContext(GlobalState);
   const [contract] = store.contract;
   const [callback, setCallback] = store.callback;
-  const [supply, setSupply] = store.supply;
+  const [supply] = store.supply;
   const [address] = store.address;
   const [web3] = store.web3;
 
-  var text = Math.floor(Math.random() * 3);
   var gradient1 = Math.floor(Math.random() * 361);
   var gradient2 = Math.floor(Math.random() * 361);
 
@@ -145,31 +144,7 @@ const Create = () => {
     return window.btoa(unescape(encodeURIComponent(str)));
   }
 
-  const create = async () => {
-    let supply = await contract.methods.totalSupply().call();
-    if (supply == 0) {
-      setSupply(1);
-    } else {
-      setSupply((prevSupply) => prevSupply + 1);
-    }
-    const image = await getImage();
-    let encodedImg = utf8_to_b64(image);
-    console.log("data:image/svg+xml;base64,", encodedImg);
-    const mintedNFT = await contract.methods.mint("Roman", image).send({
-      from: address,
-      value: web3.utils.toWei("0.005", "ether"),
-    });
-    console.log(mintedNFT);
-  };
-
   const getImage = async () => {
-    let supply = await contract.methods.totalSupply().call();
-    if (supply == 0) {
-      setSupply(1);
-    } else {
-      setSupply((prevSupply) => prevSupply + 1);
-    }
-    text = Math.floor(Math.random() * 3);
     gradient1 = Math.floor(Math.random() * 361);
     gradient2 = Math.ceil(Math.random() * 361);
     let img = `<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
@@ -248,6 +223,22 @@ const Create = () => {
  </defs>
 </svg>`;
     return img;
+  };
+
+  const create = async () => {
+    const image = await getImage();
+    let encodedImg = utf8_to_b64(image);
+    console.log("image", typeof image);
+    console.log("data:image/svg+xml;base64,", encodedImg);
+    if (image) {
+      const mintedNFT = await contract.methods
+        .mint("Roman", String(image))
+        .send({
+          from: address,
+          value: web3.utils.toWei("0.005", "ether"),
+        });
+      console.log(mintedNFT);
+    }
   };
 
   return (
