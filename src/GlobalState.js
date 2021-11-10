@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const [callback, setCallback] = useState(false);
   var NFTArray = [];
   const [NFTWallet, setNFTWallet] = useState(NFTArray);
-  const contractAddress = "0x788B411D88F1B6a711c9F85F0Cf94e24E45fC305";
+  const contractAddress = "0x39B86dC4DCb4bcadF6f76145057ccdcaf6C5E744";
   const [supply, setSupply] = useState(1);
 
   const ABI = [
@@ -91,6 +91,18 @@ export const DataProvider = ({ children }) => {
           internalType: "uint8",
           name: "side",
           type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "fliped",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "nextFlip",
+          type: "uint256",
         },
       ],
       name: "Fliped",
@@ -784,14 +796,19 @@ export const DataProvider = ({ children }) => {
           for (let i = 0; i < walletOfOwner.length; i++) {
             var id = walletOfOwner[i];
             var nft = await contract.methods.tokenURI(id).call();
-            var nftFlips = await contract.methods.Vocabulary(id).call();
+            var nftObj = await contract.methods.Vocabulary(id).call();
             if (nft) {
               const json = Buffer.from(nft.substring(29), "base64").toString();
               if (json) {
                 var result = await JSON.parse(json);
               }
               if (result) {
-                NFTArray.push({ ...result, id: id, flips: nftFlips.flips });
+                NFTArray.push({
+                  ...result,
+                  id: id,
+                  flips: nftObj.flips,
+                  lastFlip: nftObj.lastFlip,
+                });
               }
             }
           }

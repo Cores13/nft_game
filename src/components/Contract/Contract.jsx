@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
 import { GlobalState } from "../../GlobalState";
 
@@ -11,14 +11,25 @@ const Contract = () => {
   const [web3] = store.web3;
   const [NFTWallet] = store.NFTWallet;
   const [callback, setCallback] = store.callback;
+  const [countdown, setCountdown] = useState(false);
 
   useEffect(() => {
     setCallback(!callback);
+    setTimeout(() => {
+      if (NFTWallet && !countdown) {
+        continueTimer();
+      }
+    }, 1000);
     // eslint-disable-next-line
-  }, []);
+  }, [walletAddress, isAuthenticatedD, authenticateD, logoutD]);
 
   useEffect(() => {
     console.log(NFTWallet);
+    setTimeout(() => {
+      if (NFTWallet && !countdown) {
+        continueTimer();
+      }
+    }, 1000);
     // eslint-disable-next-line
   }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
@@ -26,7 +37,8 @@ const Contract = () => {
     var timer = duration,
       // minutes,
       seconds;
-    setInterval(() => {
+    setCountdown(true);
+    var interval = setInterval(() => {
       // minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
 
@@ -36,9 +48,33 @@ const Contract = () => {
       display.textContent = seconds + "seconds";
 
       if (--timer < 0) {
-        timer = duration;
+        timer = 0;
+        setCountdown(false);
+        clearInterval(interval);
       }
     }, 1000);
+  };
+
+  const continueTimer = () => {
+    var now = Date.now();
+    now = now.toString();
+    now = now.slice(0, -3);
+    now = parseInt(now);
+    console.log(now);
+    for (let i = 0; i < NFTWallet.length; i++) {
+      let duration =
+        parseInt(parseInt(NFTWallet[i].lastFlip) + 60) - parseInt(now);
+      console.log("duration", duration);
+      console.log("next flip", NFTWallet[i].lastFlip);
+      const display = document.querySelector(
+        `h4.timer${String(NFTWallet[i].id)}`
+      );
+      if (duration > 0 && duration <= 60) {
+        startTimer(duration, display);
+      } else {
+        continue;
+      }
+    }
   };
 
   const flip = async (e) => {
@@ -48,13 +84,16 @@ const Contract = () => {
         .send({ from: address });
       if (flipedNFT) {
         console.log(flipedNFT.events.Fliped.returnValues.side);
-        // console.log(flipedNFT.events.Fliped.returnValues._tokenId);
         setCallback(!callback);
-        // for (let i = 60; i >= 0; i--) {
-        var duration = 60;
-        const display = document.querySelector("h4.nextFlip");
-        startTimer(duration, display);
-        // }
+        var duration =
+          flipedNFT.events.Fliped.returnValues.nextFlip -
+          flipedNFT.events.Fliped.returnValues.fliped;
+        const display = document.querySelector(
+          `h4.timer${String(e.target.value)}`
+        );
+        if (!countdown) {
+          startTimer(duration, display);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +122,9 @@ const Contract = () => {
                       onClick={(e) => flip(e)}>
                       Flip
                     </button>
-                    <h4 className='nextFlip'>{}</h4>
+                    <h4 className={`timer${String(nft.id)}`} id={nft.id}>
+                      {}
+                    </h4>
                   </div>
                 );
               })}
