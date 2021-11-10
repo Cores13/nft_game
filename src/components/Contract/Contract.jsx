@@ -8,7 +8,6 @@ const Contract = () => {
     useMoralisDapp();
   const [address] = store.address;
   const [contract] = store.contract;
-  const [web3] = store.web3;
   const [NFTWallet] = store.NFTWallet;
   const [callback, setCallback] = store.callback;
   const [countdown, setCountdown] = useState(false);
@@ -19,17 +18,17 @@ const Contract = () => {
       if (NFTWallet && !countdown) {
         continueTimer();
       }
-    }, 1000);
+    }, 5000);
     // eslint-disable-next-line
   }, [walletAddress, isAuthenticatedD, authenticateD, logoutD]);
 
   useEffect(() => {
-    console.log(NFTWallet);
     setTimeout(() => {
+      console.log(NFTWallet);
       if (NFTWallet && !countdown) {
         continueTimer();
       }
-    }, 1000);
+    }, 5000);
     // eslint-disable-next-line
   }, [walletAddress, isAuthenticatedD, authenticateD, logoutD, contract]);
 
